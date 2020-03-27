@@ -5,4 +5,5 @@ I put an example to generate image maps, "generate_lane_curves". And another mor
 If you want a good result, some adjustment for parameters is needed.
  
 A typical result is show below. Green curve is the original path without smoothing, actually it is the center line plus a random noise. Red curve is the smoothed path.
- 
+
+![result_image](https://github.com/linxigjs/path_smoother/blob/master/map_imgs/smoothed%20path_screenshot.png)
