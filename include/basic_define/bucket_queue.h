@@ -29,15 +29,15 @@ public:
     */
     BucketPrioQueue();
     bool empty();
-    void push(int prio, Vec2i t);//插入元素
+    void push(int prio, Vec2i t);
     //! return and pop the element with the lowest squared distance */
     Vec2i pop();
 
 private:
     static void initSqrIndices();
-    static std::vector<int> sqrIndices;//记录pri的位置，sqrIndices[pri]=index
+    static std::vector<int> sqrIndices;
     static int numBuckets;
-    int count;//有效元素数量
+    int count;
     int nextBucket;
 
     std::vector<std::queue<Vec2i> > buckets;

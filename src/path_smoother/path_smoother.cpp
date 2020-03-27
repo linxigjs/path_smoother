@@ -31,7 +31,6 @@ void PathSmoother::smoothPath() {
   //Todo:make sure the cycle end condition
   while (iterations < Constants::max_iterations) {
     for (int i = 1; i < smoothed_path_.size() - 1; ++i) {
-      //后面1个点，当前点，前面1个点
       Vec2d xim1(smoothed_path_[i - 1].x(), smoothed_path_[i - 1].y());
       Vec2d xi(smoothed_path_[i].x(), smoothed_path_[i].y());
       Vec2d xip1(smoothed_path_[i + 1].x(), smoothed_path_[i + 1].y());
@@ -68,7 +67,6 @@ void PathSmoother::smoothPath() {
   cv::waitKey();
 }
 
-//返回离最近障碍的梯度方向
 Vec2d PathSmoother::obstacleTerm(Vec2d xi) {
   Vec2d gradient;
   // the distance to the closest obstacle from the current node
@@ -78,10 +76,9 @@ Vec2d PathSmoother::obstacleTerm(Vec2d xi) {
   int y = (int)xi.y();
   // if the node is within the map
   if (x < map_width_ && x >= 0 && y < map_height_ && y >= 0) {
-    //从当前点xi到最近障碍点的向量
     Vec2d obsVct(xi.x() - voronoi_.GetClosetObstacleCoor(xi).x(),
                  xi.y() - voronoi_.GetClosetObstacleCoor(xi).y());
-    //obsDst本应该等于obsVct向量的模，但是相差较大（超过1m），而且不一定谁更大。
+    //obsDst should be equal to the length of obsVct. However, their difference may be larger than 1m.
 //    std::cout << "(==) dis to closest obs = " << obsDst << ", Vector Mod = " << obsVct.length() << std::endl;
     // the closest obstacle is closer than desired correct the path for that
     // obsDMax = 2m
@@ -119,20 +116,13 @@ Vec2d PathSmoother::voronoiTerm(Vec2d xi) {
                               (edgDst / (edgDst + obsDst)) * ((obsDst - vorObsDMax_) / pow(vorObsDMax_, 2))
                               * (-(obsDst - vorObsDMax_) / (alpha_ + obsDst) - (obsDst - vorObsDMax_) / (obsDst + edgDst) + 2);
       gradient = wVoronoi_ * (PvorPtn_PobsDst * PobsDst_Pxi + PvorPtn_PedgDst * PedgDst_Pxi) * 100;
-//      std::cout << "Smoother::voronoiTerm() 1, point(" << xi.x() << ", " << xi.y() << "), obsDst=" << obsDst
-//                << ", edgDst=" << edgDst << ", gradient=["
-//                << gradient.x() << ", " << gradient.y() << "]" << std::endl;
       return gradient;
     }
-//    std::cout << "Smoother::voronoiTerm() 2, point(" << xi.x() << ", " << xi.y() << "), obsDst="
-//              << obsDst << ", edgDst=" << edgDst << std::endl;
     return gradient;
   }
-//  std::cout << "Smoother::voronoiTerm() 3, obsDst=" << obsDst << std::endl;
   return gradient;
 }
 
-//返回梯度方向
 Vec2d PathSmoother::curvatureTerm(Vec2d xim1, Vec2d xi, Vec2d xip1) {
   Vec2d gradient;
   // the vectors between the nodes
@@ -190,8 +180,7 @@ Vec2d PathSmoother::curvatureTerm(Vec2d xim1, Vec2d xi, Vec2d xip1) {
 }
 
 Vec2d PathSmoother::smoothnessTerm(Vec2d xim, Vec2d xi, Vec2d xip) {
-  // 下面是我按照《Practical search techniques in path planning for autonomous driving》
-  // 文章中的公式手动求导后，改动的代码，效果很好
+  // according to paper "Practical search techniques in path planning for autonomous driving"
   return wSmoothness_ * (-4) * (xip - 2*xi + xim);
 }
 

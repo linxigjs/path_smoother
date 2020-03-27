@@ -1,9 +1,6 @@
-//
-// Created by goujs on 20-3-18.
-//
 
 #include <opencv2/opencv.hpp>
-#include <random>
+
 using namespace cv;
 using namespace std;
 

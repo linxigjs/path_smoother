@@ -28,9 +28,9 @@ public:
     void buildVoronoiFromImage(const cv::Mat& map_img);
 
     //! returns the obstacle distance at the specified location
-    float getDistance(int x, int y);//返回(x,y)位置处的最近障碍的距离
+    float getDistance(int x, int y);
     //! returns whether the specified cell is part of the (pruned) Voronoi graph
-    inline bool isVoronoi(int x, int y);//检查(x,y)处是否为(剪枝后的)Voronoi graph的一部分
+    inline bool isVoronoi(int x, int y);
     //! checks whether the specficied location is occupied
     inline bool isOccupied(int x, int y);
     //! write the current distance map and voronoi diagram as ppm file
@@ -69,16 +69,16 @@ private:
     void initializeMap(int _sizeX, int _sizeY, bool** _gridMap);
 
     //! add an obstacle at the specified cell coordinate
-    inline void occupyCell(int x, int y); //在 (x,y) 位置标记障碍
+    inline void occupyCell(int x, int y);
     //! remove an obstacle at the specified cell coordinate
-    inline void clearCell(int x, int y); //移除(x,y)位置的障碍
+    inline void clearCell(int x, int y);
     //! remove old dynamic obstacles and add the new ones
-    void exchangeObstacles(std::vector<Vec2i> newObstacles);//用新的障碍信息替换旧的障碍信息
+    void exchangeObstacles(std::vector<Vec2i> newObstacles);
 
     //! update distance map and Voronoi diagram to reflect the changes
-    void update(bool updateRealDist = true);//根据环境变化更新距离地图和Voronoi Diagram
+    void update(bool updateRealDist = true);
     //! prune the Voronoi diagram
-    void prune();//对Voronoi diagram剪枝
+    void prune();
     void CollectVoronoiEdgePoints();
 
     inline void setObstacle(int x, int y);
@@ -89,7 +89,7 @@ private:
     void commitAndColorize(bool updateRealDist = true);
     void reviveVoroNeighbors(int& x, int& y);
     inline bool isOccupied(int& x, int& y, dataCell& c);
-    //标记匹配结果
+
     markerMatchResult markerMatch(int x, int y);
 
     std::string ComputeIndex(const Vec2i& pi) const;
@@ -104,7 +104,7 @@ private:
     int sizeY;
     int sizeX;
     dataCell** data;
-    bool** gridMap;   //true是被占用，false是没有被占用
+    bool** gridMap;   //true is occupied, false is not
     std::vector<Vec2i> edge_points_;
     std::unordered_map<std::string, std::pair<Vec2i, float>> closest_edge_points_;
 };
