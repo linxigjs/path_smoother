@@ -3,7 +3,7 @@
 #include "basic_define/math_utils.h"
 
 
-PathSmoother::PathSmoother(const cv::Mat& map_img, const std::vector<Vec2d>& cv_path) {
+PathSmoother::PathSmoother(cv::Mat map_img, const std::vector<Vec2d>& cv_path) {
   map_height_ = map_img.rows;
   map_width_ = map_img.cols;
   if(map_img.channels() != 1) {

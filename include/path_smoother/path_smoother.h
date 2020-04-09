@@ -15,7 +15,7 @@ class PathSmoother {
 public:
     PathSmoother() {};
 
-    PathSmoother(const cv::Mat& map_img, const std::vector<Vec2d>& cv_path);
+    PathSmoother(cv::Mat map_img, const std::vector<Vec2d>& cv_path);
 
     void smoothPath();
 
